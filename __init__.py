@@ -62,7 +62,6 @@ def upload_and_classify():
 			#                         filename=filename))
 			filepath = os.path.join(app.config['UPLOAD_FOLDER_VDD'], filename)
 			model_results = engine.engine(filepath)
-
 			return render_template('results.html', result=model_results, scroll='third', filename=filename)
 	flash('Invalid file format - please try your upload again.')
 	return redirect(url_for('assess'))

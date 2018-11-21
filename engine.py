@@ -13,14 +13,14 @@ from keras.models import Sequential, load_model
 from keras.utils.data_utils import get_file
 
 #Loading models
-VGG16_model = VGG16(weights='imagenet')
+VGG16_model = VGG16(weights='imagenet') #"REPLACE this and uncomment the line" 
 print ("VGG16_model loaded")
-DamgeDetection_model = load_model('static/models/car_damage-model3.h5')
-print ("DamgeDetection_model loaded")
-location_model = load_model('static/models/carLocationWithfrontAndBack3400Images.h5')
-print ("Location model loaded")
-severity_model = load_model('static/models/car_damage_severity.h5')
-print ("Severity model loaded")
+DamgeDetection_model = "REPLACE this and uncomment the line" #load_model('static/models/car_damage-model3.h5')
+print ("DamgeDetection_model not loaded")
+location_model = "REPLACE this and uncomment the line" # load_model('static/models/carLocationWithfrontAndBack3400Images.h5')
+print ("Location model not  loaded")
+severity_model = "REPLACE this and uncomment the line" # load_model('static/models/car_damage_severity.h5')
+print ("Severity model not loaded")
 #checked
 def prepare_img_224(img_path):
 	img = load_img(img_path, target_size=(224, 224))
@@ -142,40 +142,52 @@ def engine(img_path):
 		'severity': None,
 		'final': 'Damage assessment unsuccessful!'}
         return result
-    
-    #DamgeDetection_model = load_model('static/models/car_damage-model3.h5')
-    #print ("Second gate loaded")
-    	
-    img_256 = prepare_img_256(img_path)
-    g2 = car_damage_gate(img_256, DamgeDetection_model)
 
+    #remove below uncommented part when models are available in static/models
+    g2 = False 
     if g2 is False:
-        result = {'gate1': 'Car validation check: ', 
-		'gate1_result': 1, 
-		'gate1_message': {0: None, 1: None},
-		'gate2': 'Damage presence check: ',
-		'gate2_result': 0,
-		'gate2_message': {0: 'Are you sure that your car is damaged? Please retry your submission.'},
-		'location': None,
-		'severity': None,
-		'final': 'Damage assessment unsuccessful!'}
-        return result
-    #location_model = load_model('static/models/carLocationWithfrontAndBack3400Images.h5')
-    #print ("Location model loaded")
-    #severity_model = load_model('static/models/car_damage_severity.h5')
-    #print ("Severity model loaded")
+         result = {'gate1': 'Car validation check: ', 
+		 'gate1_result': 1, 
+		 'gate1_message': {0: None, 1: None},
+		 'gate2': 'Damage presence check: ',
+		 'gate2_result': 0,
+		 'gate2_message': {0: 'Please load the model for assessment.'},
+		 'location': None,
+		 'severity': None,
+		 'final': 'Damage assessment unsuccessful!'}
+         return result
 
-    img_128 = prepare_img_128(img_path)
-    x = location_assessment(img_128, location_model)
-    y = severity_assessment(img_256, severity_model)
+####uncomment below commented part when models are available in static/models    	
+    # img_256 = prepare_img_256(img_path)
+    # g2 = car_damage_gate(img_256, DamgeDetection_model)
+
+	# if g2 is False:
+        # result = {'gate1': 'Car validation check: ', 
+		# 'gate1_result': 1, 
+		# 'gate1_message': {0: None, 1: None},
+		# 'gate2': 'Damage presence check: ',
+		# 'gate2_result': 0,
+		# 'gate2_message': {0: 'Are you sure that your car is damaged? Please retry your submission.'},
+		# 'location': None,
+		# 'severity': None,
+		# 'final': 'Damage assessment unsuccessful!'}
+        # return result
+    # #location_model = load_model('static/models/carLocationWithfrontAndBack3400Images.h5')
+    # #print ("Location model loaded")
+    # #severity_model = load_model('static/models/car_damage_severity.h5')
+    # #print ("Severity model loaded")
+
+    # img_128 = prepare_img_128(img_path)
+    # x = location_assessment(img_128, location_model)
+    # y = severity_assessment(img_256, severity_model)
 	
-    result = {'gate1': 'Car validation check: ', 
-	'gate1_result': 1, 
-	'gate1_message': {0: None, 1: None},
-	'gate2': 'Damage presence check: ',
-	'gate2_result': 1,
-	'gate2_message': {0: None, 1: None},
-	'location': x,
-	'severity': y,
-	'final': 'Damage assessment complete!'}
-    return result
+    # result = {'gate1': 'Car validation check: ', 
+	# 'gate1_result': 1, 
+	# 'gate1_message': {0: None, 1: None},
+	# 'gate2': 'Damage presence check: ',
+	# 'gate2_result': 1,
+	# 'gate2_message': {0: None, 1: None},
+	# 'location': x,
+	# 'severity': y,
+	# 'final': 'Damage assessment complete!'}
+    # return result
